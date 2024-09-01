@@ -1,23 +1,20 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/response', function () {
 
-    return response()->json([
-        "message" => "successfully done",
-        "data" => [
-            "id" => 1,
-            "first-name" => "Amir",
-            "last-name" => "Tavakolian"
-        ]
-    ], 200);
-});
+// php .\artisan make:controller UserController --api --model=User
 
+// --api ==> use api resource to create controller ==> --api doesn't create the update and create methods
+// we usually use --resource (resource controller) but for api we use --api (api resource controller)
 
-// first parameter of json is our response's body
+// --model=User ==> prepare route model binding
 
-// seconde one is our response's status code ==> by default its 200
+// -----------------------------------------
 
-// 3th one is our response's header
+Route::apiResource('users', UserController::class);
+
+// instead of creating a route group and create all the routes individually, we use apiResource
+
+// we have Route::resource & Route::apiResource

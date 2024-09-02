@@ -15,54 +15,45 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $users = User::with('articles')->get(); // here we have used with() for Eager Loading
+
+        // you can even use protected $with = ['articles']; in User model.
+        // when using $with, any query on users table will have articles data
+
         return response()->json([
             "data" => $users
         ], 200);
-    }
 
-    public function store(StoreUserRequest $request)
-    {
-        $user = User::query()->where('email', $request->input('email'))->first();
-        if ($user) {
-            return response()->json([
-                "message" => "user is currently available",
-                "data" => ""
-            ], 422);
-        }
-        $user = User::query()->insert([
-            "name" => $request->input("name"),
-            "email" => $request->input("email"),
-            "password" => Hash::make($request->input("password")),
-        ]);
-        return response()->json([
-            "message" => "user created successfully",
-            "data" => $user
-        ], 201);
-    }
+        //=====================================================================
 
-    public function show(User $user)
-    {
+        // you can get more than one relation with ::with() method
+
+        $users = User::with(['articles', 'comments'])->get();
+
+        //=====================================================================
+
+        // get comments of articles: nested egar loading
+
+        $users = User::with('articles.comments')->get();
+
+        //=====================================================================
+
+        // you can even use load(), but, after getting data from database:
+
+        $users = User::all();
         return response()->json([
-            "data" => $user
+            "data" => $users->load('articles')
         ], 200);
-    }
 
-    public function update(UpdateUserRequest $request, User $user)
-    {
-        // for updating user, first, we should check if currently logged-in user's id
-        // is equal to the $user->id
-        // but i have skipped this checking for now
+        //=====================================================================
 
-        $user->update([
-            "name" => $request->input('name'),
-            "password" => $request->input('password') ?? $user->password,
-            "email" => $request->input("email")
-        ]);
+        // choose which columns you want from articles:   # method 1:
 
-        return response()->json([
-            'message' => 'user has been updated successfully',
-            'data' => ""
-        ], 200);
+        $users = User::with(['articles' => function ($query) {
+            $query->select('id', 'title', 'user_id'); // user_id را اضافه کنید تا رابطه به درستی کار کند
+        }])->get();
+
+        // you can even use collection methods on $query variable
+
     }
 }

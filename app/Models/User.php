@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $appends = ['fullname'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -45,5 +47,10 @@ class User extends Authenticatable
     public function articles()
     {
         return $this->hasMany(Article::class);
+    }
+
+    public function getFullnameAttribute()
+    {
+        return $this->name . " " . $this->family;
     }
 }

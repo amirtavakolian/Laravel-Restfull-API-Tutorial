@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use App\Models\User;
 use App\Services\RestApi\ApiResponseBuilder;
 use App\Services\RestApi\ApiResponseFacade;
@@ -24,3 +25,5 @@ Route::get('/test', function () {
         ->build()
         ->response();
 });
+
+Route::apiResource('users', UserController::class);

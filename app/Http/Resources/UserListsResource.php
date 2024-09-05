@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ArticleResource extends JsonResource
+class UserListsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,9 +14,12 @@ class ArticleResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        // we can use api resource (json resource) ::collection method to support collections :D
+
         return [
-            "title" => $this->title,
-            "content" => $this->content,
+            "name" => $this->name,
+            "family" => $this->family
         ];
     }
 }

@@ -16,20 +16,13 @@ class UsersListApiResourceCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        // return parent::toArray($request);
+
+        // check the codes in  ==> UserListsResource::collection
 
         return [
-            'users' => $this->collection,  // the collection which we passed is accessable by $this->collection
+            'users' => $this->collection,  // here, all the articles will be sent to the client.
             "userss" => UserListsResource::collection($this->collection),
-            // you can use resource api in resource collection to define the structure of each object in the collection.
         ];
-
-        // you can even use like below
-        return parent::collection($resource)->additional([
-            'meta' => [
-                'total' => $resource->count(),
-            ],
-        ]);
 
     }
 }

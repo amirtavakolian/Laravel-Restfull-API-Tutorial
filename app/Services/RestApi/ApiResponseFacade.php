@@ -4,6 +4,15 @@ namespace App\Services\RestApi;
 
 use Illuminate\Support\Facades\Facade;
 
+
+/**
+ * @method static ApiResponseBuilder withMessage(string $message)
+ * @method static ApiResponseBuilder withData(mixed $data)
+ * @method static ApiResponseBuilder withStatus(int $status)
+ * @method static ApiResponseBuilder withAppends(array $appends)
+ * @method static ApiResponse build()
+ */
+
 class ApiResponseFacade extends Facade
 {
 

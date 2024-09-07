@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\UserRegistrationResource;
 use App\Services\RestApi\ApiResponseBuilder;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,6 +18,10 @@ class ApiServiceProvider extends ServiceProvider
 
         $this->app->bind('apiResponseFacade', function () {
             return new ApiResponseBuilder();
+        });
+
+        $this->app->bind(UserRegistrationResource::class, function ($app, $params) {
+            return new UserRegistrationResource($params['user']);
         });
     }
 

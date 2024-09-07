@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\UserRegistrationResource;
 use App\Models\User;
+use App\Services\Authentication\AuthService;
+use App\Services\RestApi\ApiResponseFacade;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -46,31 +50,24 @@ class UserController extends Controller
         put it in index method of the controller.
     */
 
-    public function store(Request $request)
+    public function __construct(private AuthService $authService)
     {
-        try {
-            $validator = Validator::make($request->all(), [
-                'first_name' => 'required|string|max:255',
-                "last_name" => "required|string|min:1|max:255",
-                "password" => "required|string|min:8|max:255",
-                'email' => 'required|string|email|max:255|unique:users',
-            ]);
+    }
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'errors' => $validator->errors()
-                ], 422);
-            }
+    public function store(StoreUserRequest $request)
+    {
+        $userRegistrationResult = $this->authService->registerUser($request->all());
 
-            $inputs = $validator->validated();
-            $inputs['password'] = Hash::make($inputs['password']);
-
-            $user = User::create($inputs);
-        } catch (Exception $e) {
-            return response()->json(['message' => 'Something went wrong. Try again later'], 500);
+        if (!$userRegistrationResult['ok']) {
+            return ApiResponseFacade::withMessage($userRegistrationResult['message'])
+                ->withStatus(500);
         }
 
-        return response()->json(['message' => 'User created successfully', 'data' => $user], 200);
+        return ApiResponseFacade::withData(resolve(UserRegistrationResource::class, ['user' => $userRegistrationResult['data']]))
+            ->withMessage($userRegistrationResult['message'])
+            ->withStatus(200)
+            ->build()
+            ->response();
     }
 
 

@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Hash;
 class AuthService
 {
 
+    public function getAllUsers()
+    {
+        return [
+            "data" => User::all(),
+            "message" => "list of all users"
+        ];
+    }
+
     public function registerUser(array $inputs)
     {
         try {

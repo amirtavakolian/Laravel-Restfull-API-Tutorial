@@ -1,0 +1,89 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get list of users",
+                "description": "Get users list",
+                "operationId": "c457726701591d1183b53aa71fc13441",
+                "responses": {
+                    "200": {
+                        "description": "List of all users.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1,
+                                                                "nullable": false
+                                                            },
+                                                            "first_name": {
+                                                                "type": "string",
+                                                                "example": "Amir",
+                                                                "nullable": false
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "examples": {
+                                    "result1": {
+                                        "summary": "This is result 1",
+                                        "value": {
+                                            "data": {
+                                                "data": [
+                                                    {
+                                                        "id": 1,
+                                                        "first_name": "amir 1"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "result2": {
+                                        "summary": "This is result 2",
+                                        "value": {
+                                            "data": {
+                                                "data": [
+                                                    {
+                                                        "id": 2,
+                                                        "first_name": "amir 2"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Users"
+        }
+    ]
+}

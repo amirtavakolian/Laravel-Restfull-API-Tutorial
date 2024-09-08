@@ -42,7 +42,7 @@ class UserController extends Controller
 
         if (!$userLoginResult['ok']) {
             return ApiResponseFacade::withMessage($userLoginResult['message'])
-                ->withStatus(401)
+                ->withStatus(404)
                 ->build()
                 ->response();
         }
@@ -51,5 +51,15 @@ class UserController extends Controller
             ->withStatus(200)
             ->build()
             ->response();
+    }
+
+    public function logout()
+    {
+        $userLogoutResult = $this->authService->logoutUser();
+        return ApiResponseFacade::withMessage($userLogoutResult['message'])
+            ->withStatus(200)
+            ->build()
+            ->response();
+
     }
 }

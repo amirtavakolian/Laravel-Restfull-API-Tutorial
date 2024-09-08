@@ -49,6 +49,15 @@ class AuthService
         ];
     }
 
+    public function logoutUser()
+    {
+        auth()->user()->currentAccessToken()->delete();
+        return [
+            'ok' => true,
+            'message' => 'You have successfully logged out.'
+        ];
+    }
+
     private function findUserByEmail($email)
     {
         return User::query()->where('email', $email)->first();

@@ -1,0 +1,39 @@
+
+'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', false),
+
+if you make true the above config or put L5_SWAGGER_GENERATE_ALWAYS=true in .env file,
+there will be no need to use "php .\artisan l5-swagger:generate" command to generate that json doc.
+
+after each change, it will update json doc file
+
+==================================================
+
+return [
+    'default' => 'default',
+    'documentations' => [
+        'default' => [
+            'api' => [
+                'title' => 'L5 Swagger UI',
+            ],
+
+
+title is the tile of your document
+
+=====================================================
+
+'api' => 'api/documentation'
+
+change the path of document
+
+=====================================================
+
+'base' => env('L5_SWAGGER_BASE_PATH', null),
+
+'/api' is always same (its a prefix)
+
+so ==> L5_SWAGGER_BASE_PATH="/api"
+
+there is no need to repeat it in path property of GET or POST in swagger
+
+=====================================================
+
